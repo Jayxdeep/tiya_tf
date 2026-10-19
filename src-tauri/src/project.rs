@@ -599,9 +599,10 @@ mod tests {
     fn detects_the_root_in_a_multi_file_project() {
         let directory = fixture();
         let project = load_project(directory.path()).unwrap();
+        let expected = fs::canonicalize(directory.path().join("main.tex")).unwrap();
         assert_eq!(
             project.root_file.unwrap(),
-            directory.path().join("main.tex").to_string_lossy()
+            expected.to_string_lossy()
         );
         assert_eq!(project.tex_files.len(), 2);
     }
@@ -653,9 +654,10 @@ mod tests {
         let root = directory.path().join("paper.tex");
         fs::write(&root, "\\documentclass{article}").unwrap();
         set_root(directory.path(), &root).unwrap();
+        let expected = fs::canonicalize(&root).unwrap();
         assert_eq!(
             load_project(directory.path()).unwrap().root_file.unwrap(),
-            root.to_string_lossy()
+            expected.to_string_lossy()
         );
         let settings: ProjectSettings =
             serde_json::from_slice(&fs::read(directory.path().join(".tiya.json")).unwrap())
@@ -707,7 +709,8 @@ mod tests {
             Path::new("chapters/intro.tex"),
         )
         .unwrap();
-        assert_eq!(path, directory.path().join("chapters/intro.tex"));
+        let expected = fs::canonicalize(directory.path().join("chapters/intro.tex")).unwrap();
+        assert_eq!(path, expected);
     }
 
     #[test]
