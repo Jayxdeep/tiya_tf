@@ -265,6 +265,10 @@
         </div>
 
         <div class="tour-callout-card" id="tour-callout">
+          <div class="tour-callout-header">
+            <span class="tour-badge">INTERACTIVE INSPECTOR</span>
+            <span class="tour-step-indicator" id="tour-step-indicator">01 / 04</span>
+          </div>
           <div class="callout-title" id="tour-callout-title">Monaco Editor Core</div>
           <div class="callout-desc" id="tour-callout-desc">Full syntax highlighting, bracket colorization, multi-cursor editing, and bundled high-readability typography.</div>
         </div>
@@ -388,7 +392,10 @@
           <thead>
             <tr>
               <th>Feature</th>
-              <th class="col-tiya">Tiya Studio</th>
+              <th class="col-tiya">
+                <span class="tiya-col-badge">RECOMMENDED</span>
+                Tiya Studio
+              </th>
               <th>Cloud Editors (Overleaf)</th>
               <th>VS Code + TeX Live</th>
             </tr>
@@ -532,16 +539,19 @@
       </div>
 
       <!-- macOS Gatekeeper Security Verified Card -->
-      <div class="gatekeeper-card" style="border-color: rgba(52, 211, 153, 0.3); background: rgba(16, 185, 129, 0.05);">
-        <div class="gatekeeper-icon" style="color: #34d399;">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <div class="security-verified-card">
+        <div class="verified-icon-badge">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
-        <div class="gatekeeper-content" style="flex: 1;">
-          <h4 style="color: #34d399;">Apple Notarized &amp; Verified</h4>
+        <div class="verified-content">
+          <div class="verified-header-row">
+            <h4>Apple Notarized &amp; Security Verified</h4>
+            <span class="verified-pill">Developer ID Certified</span>
+          </div>
           <p>
-            Tiya is officially signed with Apple Developer ID and notarized by Apple. It installs and launches seamlessly on macOS with zero Gatekeeper warnings.
+            Tiya is cryptographically signed with an official Apple Developer ID and notarized by Apple Ticket Service. It installs and launches natively on macOS Sequoia, Sonoma, and Ventura with zero Gatekeeper warnings.
           </p>
         </div>
       </div>

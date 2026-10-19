@@ -765,21 +765,26 @@ function setupShowcaseInteractions() {
   const calloutBox = document.getElementById('tour-callout');
   const calloutTitle = document.getElementById('tour-callout-title');
   const calloutDesc = document.getElementById('tour-callout-desc');
+  const calloutStep = document.getElementById('tour-step-indicator');
 
   const tourData = {
     editor: {
+      step: "01 / 04",
       title: "Monaco Editor Core",
       desc: "Full syntax highlighting, bracket colorization, multi-cursor editing, and bundled high-readability typography."
     },
     synctex: {
+      step: "02 / 04",
       title: "Bidirectional SyncTeX",
       desc: "Instant navigation between source code line and compiled PDF coordinate. Never lose your editing position."
     },
     tectonic: {
+      step: "03 / 04",
       title: "Embedded Tectonic Engine",
       desc: "Zero-configuration Rust compiler. Auto-fetches missing CTAN packages on demand and streams diagnostics in real-time."
     },
     preview: {
+      step: "04 / 04",
       title: "High-DPI PDF Previewer",
       desc: "Real-time rendering, smooth page zooming, text selection, and instantaneous re-rendering on file save."
     }
@@ -792,6 +797,9 @@ function setupShowcaseInteractions() {
     if (tourData[key] && calloutTitle && calloutDesc && calloutBox) {
       calloutTitle.textContent = tourData[key].title;
       calloutDesc.textContent = tourData[key].desc;
+      if (calloutStep) {
+        calloutStep.textContent = tourData[key].step;
+      }
       calloutBox.classList.add('highlight-pulse');
       setTimeout(() => calloutBox.classList.remove('highlight-pulse'), 400);
     }
