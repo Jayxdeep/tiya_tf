@@ -46,3 +46,5 @@ cargo test --manifest-path src-tauri/Cargo.toml
 ```
 
 Release builds download the pinned Tectonic binary for each target and package it with Tiya.
+
+For an in-depth architecture breakdown, workflow guide, test suite details, and troubleshooting, see the [Local Development Guide](DEVELOPMENT.md).
