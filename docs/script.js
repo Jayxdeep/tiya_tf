@@ -663,8 +663,8 @@ function setupControls() {
     });
   }
 
-  // Sticky Navbar state on scroll
-  window.addEventListener('scroll', () => {
+  // Sticky Navbar state & dynamic CTA visibility on scroll
+  const updateNavbarState = () => {
     const scrollY = window.scrollY;
     if (dom.navbar) {
       if (scrollY > 30) {
@@ -672,8 +672,16 @@ function setupControls() {
       } else {
         dom.navbar.classList.remove('scrolled');
       }
+      // Reveal the navbar 'Get Tiya' button only when scrolled past the hero CTA
+      if (scrollY > 320) {
+        dom.navbar.classList.add('show-cta');
+      } else {
+        dom.navbar.classList.remove('show-cta');
+      }
     }
-  }, { passive: true });
+  };
+  window.addEventListener('scroll', updateNavbarState, { passive: true });
+  updateNavbarState();
 }
 
 // ==========================================
@@ -821,44 +829,100 @@ function setupShowcaseInteractions() {
 // ==========================================
 // 7. Copy-to-Clipboard Helpers
 // ==========================================
-function setupCopyButtons() {
-  function copyTextWithFeedback(btn, text) {
-    if (!navigator.clipboard) {
+function copyTextWithFeedback(btn, text) {
+  if (!btn) return;
+
+  if (!btn.dataset.origHtml) {
+    btn.dataset.origHtml = btn.innerHTML;
+  }
+  const originalHtml = btn.dataset.origHtml;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).catch(() => {
+      fallbackExecCopy(text);
+    });
+  } else {
+    fallbackExecCopy(text);
+  }
+
+  function fallbackExecCopy(str) {
+    try {
       const ta = document.createElement('textarea');
-      ta.value = text;
+      ta.value = str;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      ta.style.top = '0';
       document.body.appendChild(ta);
+      ta.focus();
       ta.select();
       document.execCommand('copy');
       document.body.removeChild(ta);
-    } else {
-      navigator.clipboard.writeText(text).catch(() => {});
-    }
-
-    const originalText = btn.innerHTML;
-    btn.innerHTML = `
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-      </svg>
-      <span>Copied!</span>
-    `;
-    btn.classList.add('copied');
-
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.classList.remove('copied');
-    }, 2200);
+    } catch (_) {}
   }
 
+  btn.innerHTML = `
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+    <span>Copied!</span>
+  `;
+  btn.classList.add('copied');
+
+  if (btn._copyTimeout) clearTimeout(btn._copyTimeout);
+  btn._copyTimeout = setTimeout(() => {
+    btn.innerHTML = originalHtml;
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function setupCopyButtons() {
   if (dom.copyMacBtn && dom.macCodeBlock) {
     dom.copyMacBtn.addEventListener('click', () => {
       copyTextWithFeedback(dom.copyMacBtn, 'xattr -cr /Applications/Tiya.app');
     });
   }
+}
 
-  if (dom.copyGitBtn && dom.gitCloneBlock) {
-    dom.copyGitBtn.addEventListener('click', () => {
-      const gitCmd = `git clone https://github.com/saqib40/tiya.git\ncd tiya\nnpm install\nnpm run tauri dev`;
-      copyTextWithFeedback(dom.copyGitBtn, gitCmd);
+function setupPackageManagerTabs() {
+  const tabs = document.querySelectorAll('.pm-tab');
+  const installLine = document.getElementById('cmd-install-line');
+  const runLine = document.getElementById('cmd-run-line');
+  let currentPm = 'npm';
+
+  const pmData = {
+    npm: {
+      install: '<span class="cmd-prompt">$</span><span class="cmd-keyword">npm</span> <span class="cmd-arg">install</span>',
+      run: '<span class="cmd-prompt">$</span><span class="cmd-keyword">npm run</span> <span class="cmd-target">tauri dev</span>',
+      cmd: 'git clone https://github.com/saqib40/tiya.git\ncd tiya\nnpm install\nnpm run tauri dev'
+    },
+    pnpm: {
+      install: '<span class="cmd-prompt">$</span><span class="cmd-keyword">pnpm</span> <span class="cmd-arg">install</span>',
+      run: '<span class="cmd-prompt">$</span><span class="cmd-keyword">pnpm</span> <span class="cmd-target">tauri dev</span>',
+      cmd: 'git clone https://github.com/saqib40/tiya.git\ncd tiya\npnpm install\npnpm tauri dev'
+    },
+    bun: {
+      install: '<span class="cmd-prompt">$</span><span class="cmd-keyword">bun</span> <span class="cmd-arg">install</span>',
+      run: '<span class="cmd-prompt">$</span><span class="cmd-keyword">bun run</span> <span class="cmd-target">tauri dev</span>',
+      cmd: 'git clone https://github.com/saqib40/tiya.git\ncd tiya\nbun install\nbun run tauri dev'
+    }
+  };
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const pm = tab.dataset.pm;
+      if (!pm || !pmData[pm]) return;
+      currentPm = pm;
+      tabs.forEach(t => t.classList.toggle('active', t === tab));
+      if (installLine) installLine.innerHTML = pmData[pm].install;
+      if (runLine) runLine.innerHTML = pmData[pm].run;
+    });
+  });
+
+  const copyBtn = document.getElementById('copy-git-btn') || dom.copyGitBtn;
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const data = pmData[currentPm] || pmData.npm;
+      copyTextWithFeedback(copyBtn, data.cmd);
     });
   }
 }
@@ -872,6 +936,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupOSDetection();
   setupShowcaseInteractions();
   setupCopyButtons();
+  setupPackageManagerTabs();
 
   // Start animation loop
   requestAnimationFrame(tick);
