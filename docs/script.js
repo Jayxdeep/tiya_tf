@@ -869,3 +869,4 @@ document.addEventListener('DOMContentLoaded', () => {
   requestAnimationFrame(tick);
   updateFrame(0);
 });
+
