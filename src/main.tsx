@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { loader } from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
 import "@fontsource-variable/inter";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 import App from "./App";
 import "./styles.css";
 
@@ -14,8 +15,18 @@ self.MonacoEnvironment = {
 };
 loader.config({ monaco });
 
+window.addEventListener("error", (event) => {
+  console.error("Global window error:", event.error || event.message);
+});
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Unhandled promise rejection:", event.reason);
+});
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
 );
+

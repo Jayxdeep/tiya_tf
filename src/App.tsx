@@ -69,12 +69,19 @@ function App() {
     useEffect(() => { if (preferencesOpen) preferencesDialog.current?.showModal(); }, [preferencesOpen]);
 
     useEffect(() => {
-        const layout = appearance.layout;
-        const editorSize = 100 * layout.editor / (layout.editor + layout.preview);
-        group.current?.setLayout(view === 'split'
-            ? appearance.sidebar ? layout : { files: 0, editor: editorSize, preview: 100 - editorSize }
-            : { files: view === 'files' ? 100 : 0, editor: view === 'editor' ? 100 : 0, preview: view === 'preview' ? 100 : 0 });
-    }, [view, appearance.sidebar, projectPath]);
+        if (!projectPath || !group.current) return;
+        try {
+            const current = group.current.getLayout();
+            if (Object.keys(current).length < 3) return;
+            const layout = appearance.layout;
+            const editorSize = 100 * layout.editor / (layout.editor + layout.preview);
+            group.current.setLayout(view === 'split'
+                ? appearance.sidebar ? layout : { files: 0, editor: editorSize, preview: 100 - editorSize }
+                : { files: view === 'files' ? 100 : 0, editor: view === 'editor' ? 100 : 0, preview: view === 'preview' ? 100 : 0 });
+        } catch (error) {
+            console.warn("Could not apply layout:", error);
+        }
+    }, [view, appearance.sidebar]);
 
     const rememberLayout = (layout: Record<string, number>) => {
         if (view !== 'split' || !appearance.sidebar || !layout.files || !layout.editor || !layout.preview) return;

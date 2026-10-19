@@ -40,8 +40,9 @@ const Home = ({ onProjectSelect, recentProjects = [], onForgetProject }: HomePro
             const project = newProject.archive
                 ? await invoke<ProjectInfo>('import_project', { archivePath: newProject.archive, parentPath: newProject.parent, name: newProject.name })
                 : await invoke<ProjectInfo>('create_project', { parentPath: newProject.parent, name: newProject.name, template: newProject.template });
-            await onProjectSelect(project.path);
+            dialog.current?.close?.();
             setNewProject(null);
+            await onProjectSelect(project.path);
         } catch (failure) { setError(String(failure)); }
         finally { setBusy(false); }
     };
