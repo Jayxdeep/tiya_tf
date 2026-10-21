@@ -636,6 +636,7 @@ section {
 .showcase-section {
   padding: 80px 0 100px;
   position: relative;
+  overflow: clip;
 }
 
 .section-header {
@@ -1425,27 +1426,6 @@ footer.main-footer .brand-mark .dot {
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */
-@media (max-width: 1024px) {
-  .os-download-grid {
-    grid-template-columns: 1fr;
-  }
-  .main-headline {
-    font-size: 3.4rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-  .main-headline {
-    font-size: 2.6rem;
-  }
-  .metrics-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 /* ==========================================================================
    ELECTRIC SAFFRON DESIGN SYSTEM (Screenshot 3)
    ========================================================================== */
@@ -1607,4 +1587,288 @@ footer.main-footer .brand-mark .dot {
 
 .main-footer .footer-link:hover {
   color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .navbar-wrapper {
+    padding-inline: 16px;
+  }
+
+  .nav-container {
+    padding: 0;
+    gap: 12px;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+
+  .os-download-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-headline {
+    font-size: 3.4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar-wrapper {
+    top: 10px;
+    border-radius: 20px;
+  }
+
+  .nav-container {
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .nav-link,
+  .github-btn,
+  .nav-cta-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  section {
+    scroll-margin-top: 140px;
+  }
+
+  .intro-section {
+    padding-top: 164px;
+  }
+
+  .metrics-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .studio-titlebar {
+    gap: 12px;
+  }
+
+  .traffic-lights,
+  .window-title .doc-icon {
+    flex-shrink: 0;
+  }
+
+  .window-title {
+    min-width: 0;
+    color: #94a3b8;
+  }
+
+  .window-title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .window-status {
+    display: none;
+  }
+
+  .comparison-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .comparison-table {
+    min-width: 680px;
+  }
+
+  .os-tab-nav,
+  .footer-links {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding-inline: 16px;
+  }
+
+  .nav-container {
+    padding: 0;
+  }
+
+  .navbar-wrapper {
+    width: calc(100% - 24px);
+    padding: 8px 12px;
+  }
+
+  .nav-brand {
+    gap: 6px;
+  }
+
+  .brand-version-badge {
+    display: none;
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
+  }
+
+  .main-headline {
+    font-size: 2.25rem;
+    letter-spacing: 0;
+  }
+
+  .main-subheadline,
+  .section-desc {
+    font-size: 1rem;
+  }
+
+  .intro-section {
+    padding-bottom: 40px;
+  }
+
+  .showcase-section,
+  .comparison-section,
+  .download-section,
+  .contribute-section {
+    padding-block: 48px;
+  }
+
+  .section-header {
+    margin-bottom: 28px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .primary-cta-btn {
+    max-width: 100%;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .primary-cta-btn .btn-text {
+    min-width: 0;
+  }
+
+  .primary-cta-btn .btn-maintext {
+    font-size: 0.95rem;
+    letter-spacing: 0;
+  }
+
+  .metrics-row {
+    gap: 12px;
+    padding-top: 0;
+  }
+
+  .metric-card {
+    min-width: 0;
+    padding: 18px 12px;
+  }
+
+  .metric-val {
+    font-size: 1.4rem;
+    letter-spacing: 0;
+  }
+
+  .studio-titlebar {
+    padding: 10px;
+  }
+
+  .os-tab-nav {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tab-btn {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+
+  .os-download-grid {
+    gap: 20px;
+  }
+
+  .os-download-card,
+  .security-verified-card {
+    padding: 20px;
+    min-width: 0;
+  }
+
+  .card-dl-btn {
+    gap: 10px;
+    padding-inline: 12px;
+    min-height: 44px;
+  }
+
+  .card-dl-btn .file-ext {
+    flex-shrink: 0;
+  }
+
+  .security-verified-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .verified-content {
+    min-width: 0;
+  }
+
+  .code-card-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .code-card-header .traffic-lights {
+    display: none;
+  }
+
+  .pm-tab,
+  .copy-snippet-btn {
+    min-height: 44px;
+    padding-inline: 10px;
+  }
+
+  .code-content {
+    padding: 18px 16px;
+    overflow-x: auto;
+  }
+
+  .code-line {
+    width: max-content;
+    white-space: pre;
+    word-break: normal;
+  }
+
+  .tech-badges-row {
+    gap: 8px;
+  }
+
+  .footer-links {
+    gap: 8px 20px;
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .curtain-controls {
+    top: 16px;
+    right: 16px;
+  }
+
+  .curtain-skip-btn {
+    min-height: 44px;
+  }
 }

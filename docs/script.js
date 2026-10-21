@@ -257,6 +257,7 @@ function initDOMRefs() {
   dom = {
     stageArea: document.getElementById('stage-area'),
     cameraRig: document.getElementById('camera-rig'),
+    blueprintSvg: document.getElementById('blueprint-svg'),
     heroStageWrapper: document.getElementById('hero-stage-wrapper'),
     electricBg: document.getElementById('electric-bg'),
     laserScanline: document.getElementById('laser-scanline'),
@@ -279,6 +280,12 @@ function initDOMRefs() {
 
 function updateFrame(t) {
   if (!dom.cameraRig) return;
+
+  const viewBox = dom.blueprintSvg.viewBox.baseVal;
+  const artworkScale = Math.min(
+    dom.blueprintSvg.clientWidth / viewBox.width,
+    dom.blueprintSvg.clientHeight / viewBox.height
+  );
 
   // Macro CAD view initial camera: zoomed in close on the T/i fillet junction
   let zoom = 3.35;
@@ -418,7 +425,7 @@ function updateFrame(t) {
     panY = 0;
   }
 
-  dom.cameraRig.style.transform = `scale(${zoom}) translate(${panX}px, ${panY}px)`;
+  dom.cameraRig.style.transform = `scale(${zoom}) translate(${panX * artworkScale}px, ${panY * artworkScale}px)`;
 
   // Generate paths with active live parameters and current style
   const paths = getTiyaPaths({ vLeft, vC1, vC2, vC3, style: animState.fontStyle });
